@@ -4,14 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>金型管理アプリ</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="icon-192.png" />
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-  <meta name="theme-color" content="#2C6E49" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="金型管理" />
-  <meta name="mobile-web-app-capable" content="yes" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script>
   var require = function(mod) {
@@ -27,6 +19,17 @@
       };
     }
   });
+  // 以前のService Workerを完全に解除（PWA関連の不具合対策）
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function(regs) {
+      regs.forEach(function(r) { r.unregister(); });
+    });
+  }
+  if (window.caches) {
+    caches.keys().then(function(names) {
+      names.forEach(function(name) { caches.delete(name); });
+    });
+  }
   </script>
   <style>* { box-sizing: border-box; margin: 0; padding: 0; } body { background: #F4F5F3; }</style>
 </head>
@@ -99,21 +102,6 @@ react-dom/cjs/react-dom-client.production.js:
    *)
 */
 
-  </script>
-  <script>
-  // 以前登録されたService Workerを解除（互換性問題のため一時的に無効化）
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.getRegistrations().then(function(registrations) {
-      for (let registration of registrations) {
-        registration.unregister();
-      }
-    });
-    if (window.caches) {
-      caches.keys().then(function(names) {
-        names.forEach(function(name) { caches.delete(name); });
-      });
-    }
-  }
   </script>
 </body>
 </html>
