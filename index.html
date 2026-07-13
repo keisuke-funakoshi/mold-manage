@@ -33,9 +33,7 @@
     });
   }
   if (window.caches) {
-    caches.keys().then(function(names) {
-      names.forEach(function(name) { caches.delete(name); });
-    });
+    caches.keys().then(function(names) { names.forEach(function(name) { caches.delete(name); }); });
   }
   </script>
   <style>* { box-sizing: border-box; margin: 0; padding: 0; } body { background: #F4F5F3; }</style>
